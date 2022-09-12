@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import { Provider } from 'react-redux'
 import {store} from "./redux-Toolkit/app/store"
+import "./input.css"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
