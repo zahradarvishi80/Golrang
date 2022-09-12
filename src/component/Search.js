@@ -1,10 +1,8 @@
-import React, { useEffect, useState,useContext } from "react"
+import React, { useEffect, useState } from "react"
 import { Input} from 'antd';
-// import { MyUser } from '../Context';
 import { useDispatch,useSelector } from "react-redux";
 import { setUsers } from "../redux-Toolkit/features/apiSlice";
 const Search=()=>{
-    // const [users, setUsers] =useState([])
     const [text, setText] = useState("")
     const users=useSelector(state=>state.api.users)
     const dispatch=useDispatch()
