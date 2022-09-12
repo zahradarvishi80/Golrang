@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ContextProvider } from './Context';
+// import { ContextProvider } from './Context';
 import 'antd/dist/antd.css';
+import { Provider } from 'react-redux'
+import {store} from "./redux-Toolkit/app/store"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ContextProvider>
+  <Provider store={store}>
     <App />
-  </ContextProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

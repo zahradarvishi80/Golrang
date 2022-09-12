@@ -1,10 +1,12 @@
-import {useEffect, useContext} from 'react';
+import {useEffect, useContext, useState} from 'react';
 import { Select } from 'antd';
-import { MyUser } from '../Context';
+import { useDispatch,useSelector } from "react-redux";
+import { setUsers } from "../redux-Toolkit/features/apiSlice";
 const { Option } = Select;
 
 const Selected = () => {
-    const [users, setUsers] =useContext(MyUser)
+  const users=useSelector(state=>state.api.users)
+  const dispatch=useDispatch()
 
     useEffect(() => {
       fetchData()
@@ -15,7 +17,7 @@ const Selected = () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/users")
     const data = await response.json()
     console.log("data",data);
-    setUsers(data)
+    dispatch(setUsers(data))
   }
 
 return(

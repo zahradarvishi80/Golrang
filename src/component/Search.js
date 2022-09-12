@@ -1,16 +1,19 @@
 import React, { useEffect, useState,useContext } from "react"
 import { Input} from 'antd';
-import { MyUser } from '../Context';
-
+// import { MyUser } from '../Context';
+import { useDispatch,useSelector } from "react-redux";
+import { setUsers } from "../redux-Toolkit/features/apiSlice";
 const Search=()=>{
-    const [users, setUsers] =useContext(MyUser)
+    // const [users, setUsers] =useState([])
     const [text, setText] = useState("")
-  
+    const users=useSelector(state=>state.api.users)
+    const dispatch=useDispatch()
     const fetchData = async () => {
       const response = await fetch("https://jsonplaceholder.typicode.com/users")
       const data = await response.json()
       console.log(data);
-      setUsers(data)
+      // 
+      dispatch(setUsers(data))
     }
   
     useEffect(() => {
