@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {Fragment, useEffect} from 'react';
 import { Select } from 'antd';
 import { useDispatch,useSelector } from "react-redux";
 import { setUsers } from "../redux-Toolkit/features/apiSlice";
@@ -12,7 +12,6 @@ const Selected = () => {
       fetchData()
     }, [])
 
-
   const fetchData = async () => {
     const response = await fetch("https://jsonplaceholder.typicode.com/users")
     const data = await response.json()
@@ -21,12 +20,14 @@ const Selected = () => {
   }
 
 return(
-  <div className="flex w-[90%] mb-10  justify-start items-center flex-col h-[400px]">
+  <div className="flex w-[90%] mb-10  justify-start items-center flex-row h-[400px]">
     <Select
     mode="tags"
     showSearch
+    // className='grid grid-cols-3 flex-row '
     style={{
       width: "100%",
+      flexDirection:"row"
     }}
     placeholder="Search to Select"
     optionFilterProp="children"
@@ -37,11 +38,11 @@ return(
     }
   >
     {users.map((i,index)=>{return( 
-      // <div className="">
-    <Option 
-    className="grid grid-cols-3 m-2 font-bold" 
+
+        <Option 
+    className=" m-2 font-bold" 
     key={index} id={i.id}>{i.name}</Option>
-    // </div>
+
     )})}
   </Select>
   </div>
