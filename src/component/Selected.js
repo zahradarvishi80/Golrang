@@ -1,22 +1,24 @@
-import {Fragment, useEffect} from 'react';
+import axios from "axios"
+import { useQuery } from "react-query"
 import { Select } from 'antd';
-import { useDispatch,useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setUsers } from "../redux-Toolkit/features/apiSlice";
 const { Option } = Select;
 
 const Selected = () => {
   const users=useSelector(state=>state.api.users)
-  const dispatch=useDispatch()
 
-    useEffect(() => {
-      fetchData()
-    }, [])
 
-  const fetchData = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/users")
-    const data = await response.json()
-    console.log("data",data);
-    dispatch(setUsers(data))
+  async function fetchData(){
+    const {users}=await axios.get('https://jsonplaceholder.typicode.com/users')
+    return setUsers(users)
+  }
+  const {error,isError,isLoading}=useQuery('posts',fetchData)
+  if(isLoading){
+    return <div>Loading...</div>
+    }
+    if(isError){ 
+    return <div>Error! {error.message}</div>
   }
 
 return(
@@ -24,7 +26,6 @@ return(
     <Select
     mode="tags"
     showSearch
-    // className='grid grid-cols-3 flex-row '
     style={{
       width: "100%",
       flexDirection:"row"
@@ -32,7 +33,6 @@ return(
     placeholder="Search to Select"
     optionFilterProp="children"
     filterOption={(input, option) => option.children.includes(input)}
-    // val.name.toLowerCase().includes(text.toLowerCase())
     filterSort={(optionA, optionB) =>
       optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
     }

@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, {  useState } from "react"
 import { Input} from 'antd';
-import { useDispatch,useSelector } from "react-redux";
+import axios from "axios"
+import { useQuery } from "react-query"
+import { useSelector } from "react-redux";
 import { setUsers } from "../redux-Toolkit/features/apiSlice";
 import Tabel from "./Tabel";
 const Search=()=>{
     const [text, setText] = useState("")
     const users=useSelector(state=>state.api.users)
-    const dispatch=useDispatch()
-    const fetchData = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/users")
-      const data = await response.json()
-      console.log(data);
-      dispatch(setUsers(data))
+
+    async function fetchData(){
+      const {users}=await axios.get('https://jsonplaceholder.typicode.com/users')
+      return setUsers(users)
     }
-  
-    useEffect(() => {
-      fetchData()
-    }, [])
+   const {error,isError,isLoading}=useQuery('posts',fetchData)
+    if(isLoading){
+      return <div>Loading...</div>
+    }
+     if(isError){
+      return <div>Error! {error.message}</div>
+   }
+
     const keys=["name","username","email"]
-    // console.log(users[0]["email"]);
     const search=(data)=>{
     return data.filter(item=>
       //When searching for a word,name ,username and email present in all of them
@@ -36,7 +39,6 @@ const Search=()=>{
     return (
     
       <div className="flex w-[90%] m-10 items-center flex-col md:h-[510px] h-[420px]">
-        
         <Input 
         className="flex w-84 h-10 md:text-lg sm:h-[60px] rounded-full border-2 text-md hover:border-2 mb-5 hover:border-black"
         placeholder="Search..."
